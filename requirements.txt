@@ -1,7 +1,7 @@
 streamlit
 Pillow
 python-dotenv
-tensorflow==2.15.0
+tensorflow==2.13.0
 opencv-python-headless
 numpy>=1.23.5,<2.0.0
 
