@@ -49,7 +49,7 @@ def preprocess_image(image):
 uploaded_file = st.file_uploader("Upload Gambar Sapi", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    st.image(uploaded_file, caption="Gambar yang Diupload", use_container_width=True)
+    st.image(uploaded_file, caption="Gambar yang Diupload")
     image = Image.open(uploaded_file).convert("RGB")
     processed_image = preprocess_image(image)
 
