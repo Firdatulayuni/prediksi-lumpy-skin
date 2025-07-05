@@ -56,7 +56,7 @@ if uploaded_file is not None:
 
     # Tampilkan hasil preprocessing
     st.subheader("Hasil Preprocessing")
-    st.image(processed_display, caption="Gambar Setelah Preprocessing (CLAHE + Resize)", use_container_width=True)
+    st.image(processed_display, caption="Gambar Setelah Preprocessing (CLAHE + Resize)")
 
     # Ekstrak label asli dari nama file
     filename = uploaded_file.name  # Contoh: "Normal_Skin_1.jpg"
