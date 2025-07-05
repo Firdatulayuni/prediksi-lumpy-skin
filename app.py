@@ -37,12 +37,22 @@ def apply_clahe(cv_img):
 def preprocess_image(image):
     img_array = np.array(image)
     img_bgr = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
+
+    # Resize image
     img_resized = cv2.resize(img_bgr, (224, 224))
+
+    # CLAHE
     img_clahe = apply_clahe(img_resized)
-    img_rgb = cv2.cvtColor(img_clahe, cv2.COLOR_BGR2RGB)
-    img_scaled = img_rgb.astype(np.float32) / 127.5 - 1.0
+    img_rgb_clahe = cv2.cvtColor(img_clahe, cv2.COLOR_BGR2RGB)
+
+    # Normalisasi
+    img_scaled = img_rgb_clahe.astype(np.float32) / 127.5 - 1.0
     img_input = np.expand_dims(img_scaled, axis=0)
-    return img_input, img_rgb  # return juga hasil preprocessing dalam format RGB untuk ditampilkan
+
+    # Konversi resize image ke RGB untuk ditampilkan
+    img_resized_rgb = cv2.cvtColor(img_resized, cv2.COLOR_BGR2RGB)
+
+    return img_input, img_resized_rgb, img_rgb_clahe
 
 # Upload Gambar
 uploaded_file = st.file_uploader("Upload Gambar Sapi", type=["jpg", "jpeg", "png"])
