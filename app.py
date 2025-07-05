@@ -48,15 +48,19 @@ def preprocess_image(image):
 uploaded_file = st.file_uploader("Upload Gambar Sapi", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
+    if uploaded_file is not None:
     image = Image.open(uploaded_file).convert("RGB")
-    st.image(image, caption="Gambar Asli", width=400)  # atau sesuaikan lebarnya
+    st.image(image, caption="Gambar Asli", width=400)
 
     # Preprocessing
-    processed_input, processed_display = preprocess_image(image)
+    processed_input, resized_display, clahe_display = preprocess_image(image)
 
-    # Tampilkan hasil preprocessing
-    st.subheader("Hasil Preprocessing")
-    st.image(processed_display, caption="Gambar Setelah Preprocessing (CLAHE + Resize)", width=400)
+    st.subheader("Setelah Resize (224x224)")
+    st.image(resized_display, caption="Gambar Setelah Resize", width=400)
+
+    st.subheader("Setelah CLAHE + RGB")
+    st.image(clahe_display, caption="Gambar Setelah Preprocessing (CLAHE + RGB)", width=400)
+
     # Ekstrak label asli dari nama file
     filename = uploaded_file.name  # Contoh: "Normal_Skin_1.jpg"
     name_parts = filename.split("_")
