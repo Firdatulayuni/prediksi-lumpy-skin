@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 from PIL import Image
 import os
+import time
 
 st.set_page_config(page_title="Klasifikasi Lumpy Skin", layout="centered")
 st.title("Klasifikasi Penyakit Lumpy Skin pada Sapi")
