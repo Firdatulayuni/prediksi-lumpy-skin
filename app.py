@@ -87,7 +87,7 @@ if uploaded_file is not None:
         processed_input, resized_display, clahe_display = preprocess_image(image)
         st.subheader("Setelah Resize")
         st.image(resized_display, caption="Gambar Setelah Resize", width=400)
-        st.subheader("Setelah CLAHE + RGB")
+        st.subheader("Setelah CLAHE")
         st.image(clahe_display, caption="Gambar Setelah Preprocessing", width=400)
 
     with tab2:
