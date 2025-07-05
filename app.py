@@ -48,8 +48,8 @@ def preprocess_image(image):
 uploaded_file = st.file_uploader("Upload Gambar Sapi", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    st.image(uploaded_file, caption="Gambar Asli", use_container_width=True)
     image = Image.open(uploaded_file).convert("RGB")
+    st.image(image, caption="Gambar Asli", use_container_width=True)
 
     # Preprocessing
     processed_input, processed_display = preprocess_image(image)
@@ -67,7 +67,7 @@ if uploaded_file is not None:
         true_label = ""
 
     # Tombol Prediksi
-    if st.button("Prediksi"):
+     if st.button("Prediksi"):
         if infer:
             with st.spinner("Melakukan prediksi..."):
                 input_tensor = tf.convert_to_tensor(processed_input, dtype=tf.float32)
@@ -76,15 +76,15 @@ if uploaded_file is not None:
                     output_key = list(result.keys())[0]
                     pred_prob = result[output_key].numpy()[0][0]
                     predicted_label = "Lumpy Skin" if pred_prob > 0.5 else "Normal Skin"
-
+    
                     st.subheader("Hasil Prediksi")
                     st.success(f"**Prediksi Model:** `{predicted_label}`")
                     st.info(f"**Probabilitas Lumpy:** `{pred_prob:.4f}`")
-
+    
                     if true_label:
                         st.subheader("Label Asli (Ground Truth)")
                         st.code(true_label)
-
+    
                 except Exception as e:
                     st.error("Terjadi kesalahan saat melakukan inferensi:")
                     st.exception(e)
