@@ -49,15 +49,14 @@ uploaded_file = st.file_uploader("Upload Gambar Sapi", type=["jpg", "jpeg", "png
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file).convert("RGB")
-    st.image(image, caption="Gambar Asli")
+    st.image(image, caption="Gambar Asli", width=400)  # atau sesuaikan lebarnya
 
     # Preprocessing
     processed_input, processed_display = preprocess_image(image)
 
     # Tampilkan hasil preprocessing
     st.subheader("Hasil Preprocessing")
-    st.image(processed_display, caption="Gambar Setelah Preprocessing (CLAHE + Resize)")
-
+    st.image(processed_display, caption="Gambar Setelah Preprocessing (CLAHE + Resize)", width=400)
     # Ekstrak label asli dari nama file
     filename = uploaded_file.name  # Contoh: "Normal_Skin_1.jpg"
     name_parts = filename.split("_")
@@ -82,7 +81,7 @@ if uploaded_file is not None:
                     st.info(f"**Probabilitas Lumpy:** `{pred_prob:.4f}`")
 
                     if true_label:
-                        st.subheader("Label Asli (Ground Truth)")
+                        st.subheader("Label Asli")
                         st.code(true_label)
 
                 except Exception as e:
