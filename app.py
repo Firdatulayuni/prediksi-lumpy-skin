@@ -111,7 +111,7 @@ if uploaded_file is not None:
                         st.write(f"Waktu Prediksi: {duration:.4f} detik")
 
                         if true_label:
-                            st.subheader("Label Asli (Ground Truth)")
+                            st.subheader("Label Asli")
                             st.code(true_label)
 
                     except Exception as e:
