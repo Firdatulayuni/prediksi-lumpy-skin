@@ -87,12 +87,12 @@ if uploaded_file is not None:
                 try:
                     result = infer(input_tensor)
                     output_key = list(result.keys())[0]
-                    pred_prob = result[output_key].numpy()[0][0]
+                    # pred_prob = result[output_key].numpy()[0][0]
                     predicted_label = "Lumpy Skin" if pred_prob > 0.5 else "Normal Skin"
 
                     st.subheader("Hasil Prediksi")
                     st.success(f"**Prediksi Model:** `{predicted_label}`")
-                    st.info(f"**Probabilitas Lumpy:** `{pred_prob:.4f}`")
+                    # st.info(f"**Probabilitas Lumpy:** `{pred_prob:.4f}`")
 
                     if true_label:
                         st.subheader("Label Asli")
