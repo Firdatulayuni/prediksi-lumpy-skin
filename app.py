@@ -49,7 +49,7 @@ uploaded_file = st.file_uploader("Upload Gambar Sapi", type=["jpg", "jpeg", "png
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file).convert("RGB")
-    st.image(image, caption="Gambar Asli", use_container_width=True)
+    st.image(image, caption="Gambar Asli")
 
     # Preprocessing
     processed_input, processed_display = preprocess_image(image)
