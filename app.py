@@ -96,9 +96,9 @@ if uploaded_file is not None:
 
    # Tombol Prediksi
    with tab2:
-       if st.button("Prediksi"):
-           if infer:
-               with st.spinner("Melakukan prediksi..."):
+        if st.button("Prediksi"):
+            if infer:
+                with st.spinner("Melakukan prediksi..."):
                     input_tensor = tf.convert_to_tensor(processed_input, dtype=tf.float32)
                     try:
                         start_time = time.time()
