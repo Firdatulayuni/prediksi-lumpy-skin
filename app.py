@@ -85,13 +85,19 @@ if uploaded_file is not None:
             with st.spinner("Melakukan prediksi..."):
                 input_tensor = tf.convert_to_tensor(processed_input, dtype=tf.float32)
                 try:
+                    start_time = time.time()
                     result = infer(input_tensor)
+                    end_time = time.time()
+                    duration = end_time - start_time
+                    
+                    # result = infer(input_tensor)
                     output_key = list(result.keys())[0]
                     pred_prob = result[output_key].numpy()[0][0]
                     predicted_label = "Lumpy Skin" if pred_prob > 0.5 else "Normal Skin"
 
                     st.subheader("Hasil Prediksi")
                     st.success(f"**Prediksi Model:** `{predicted_label}`")
+                    st.write(f"Waktu Prediksi: {duration:.4f} detik")
                     # st.info(f"**Probabilitas Lumpy:** `{pred_prob:.4f}`")
 
                     if true_label:
