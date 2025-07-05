@@ -84,18 +84,13 @@ if uploaded_file is not None:
     with tab1:
         st.subheader("Gambar Asli")
         st.image(image, caption="Gambar Asli", width=400)
-
-        # Preprocessing
         processed_input, resized_display, clahe_display = preprocess_image(image)
-
-        st.subheader("Setelah Resize (224x224)")
+        st.subheader("Setelah Resize")
         st.image(resized_display, caption="Gambar Setelah Resize", width=400)
-
         st.subheader("Setelah CLAHE + RGB")
-        st.image(clahe_display, caption="Gambar Setelah Preprocessing (CLAHE + RGB)", width=400)
+        st.image(clahe_display, caption="Gambar Setelah Preprocessing", width=400)
 
-   # Tombol Prediksi
-   with tab2:
+    with tab2:
         if st.button("Prediksi"):
             if infer:
                 with st.spinner("Melakukan prediksi..."):
