@@ -59,18 +59,19 @@ def preprocess_image(image):
 uploaded_file = st.file_uploader("Upload Gambar Sapi", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    if uploaded_file is not None:
-        image = Image.open(uploaded_file).convert("RGB")
-        st.image(image, caption="Gambar Asli", width=400)
-    
-        # Preprocessing
-        processed_input, resized_display, clahe_display = preprocess_image(image)
-    
-        st.subheader("Setelah Resize")
-        st.image(resized_display, caption="Gambar Setelah Resize", width=400)
-    
-        st.subheader("Setelah CLAHE")
-        st.image(clahe_display, caption="Gambar Setelah CLAHE", width=400)
+    # Buka gambar
+    image = Image.open(uploaded_file).convert("RGB")
+
+    # Ekstrak label asli dari nama file
+    filename = uploaded_file.name
+    name_parts = filename.split("_")
+    if len(name_parts) >= 2:
+        true_label = f"{name_parts[0]} {name_parts[1]}"
+    else:
+        true_label = ""
+
+    # Buat tab
+    tab1, tab2 = st.tabs(["Preprocessing", "Prediksi"])
 
     # Ekstrak label asli dari nama file
     filename = uploaded_file.name  # Contoh: "Normal_Skin_1.jpg"
@@ -80,33 +81,46 @@ if uploaded_file is not None:
     else:
         true_label = ""
 
+    with tab1:
+        st.subheader("Gambar Asli")
+        st.image(image, caption="Gambar Asli", width=400)
+
+        # Preprocessing
+        processed_input, resized_display, clahe_display = preprocess_image(image)
+
+        st.subheader("Setelah Resize (224x224)")
+        st.image(resized_display, caption="Gambar Setelah Resize", width=400)
+
+        st.subheader("Setelah CLAHE + RGB")
+        st.image(clahe_display, caption="Gambar Setelah Preprocessing (CLAHE + RGB)", width=400)
+
    # Tombol Prediksi
-    if st.button("Prediksi"):
-        if infer:
-            with st.spinner("Melakukan prediksi..."):
-                input_tensor = tf.convert_to_tensor(processed_input, dtype=tf.float32)
-                try:
-                    start_time = time.time()
-                    result = infer(input_tensor)
-                    end_time = time.time()
-                    duration = end_time - start_time
-                    
-                    # result = infer(input_tensor)
-                    output_key = list(result.keys())[0]
-                    pred_prob = result[output_key].numpy()[0][0]
-                    predicted_label = "Lumpy Skin" if pred_prob > 0.5 else "Normal Skin"
+   with tab2:
+       if st.button("Prediksi"):
+           if infer:
+               with st.spinner("Melakukan prediksi..."):
+                    input_tensor = tf.convert_to_tensor(processed_input, dtype=tf.float32)
+                    try:
+                        start_time = time.time()
+                        result = infer(input_tensor)
+                        end_time = time.time()
+                        duration = end_time - start_time
 
-                    st.subheader("Hasil Prediksi")
-                    st.success(f"**Prediksi Model:** `{predicted_label}`")
-                    st.write(f"Waktu Prediksi: {duration:.4f} detik")
-                    # st.info(f"**Probabilitas Lumpy:** `{pred_prob:.4f}`")
+                        output_key = list(result.keys())[0]
+                        pred_prob = result[output_key].numpy()[0][0]
+                        predicted_label = "Lumpy Skin" if pred_prob > 0.5 else "Normal Skin"
 
-                    if true_label:
-                        st.subheader("Label Asli")
-                        st.code(true_label)
+                        st.subheader("Hasil Prediksi")
+                        st.success(f"**Prediksi Model:** `{predicted_label}`")
+                        # st.info(f"**Probabilitas Lumpy:** `{pred_prob:.4f}`")
+                        st.write(f"Waktu Prediksi: {duration:.4f} detik")
 
-                except Exception as e:
-                    st.error("Terjadi kesalahan saat melakukan inferensi:")
-                    st.exception(e)
-        else:
-            st.warning("Model belum dimuat, prediksi tidak bisa dilakukan.")
+                        if true_label:
+                            st.subheader("Label Asli (Ground Truth)")
+                            st.code(true_label)
+
+                    except Exception as e:
+                        st.error("Terjadi kesalahan saat melakukan inferensi:")
+                        st.exception(e)
+            else:
+                st.warning("Model belum dimuat, prediksi tidak bisa dilakukan.")
