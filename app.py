@@ -66,8 +66,8 @@ if uploaded_file is not None:
     else:
         true_label = ""
 
-    # Tombol Prediksi
-     if st.button("Prediksi"):
+   # Tombol Prediksi
+    if st.button("Prediksi"):
         if infer:
             with st.spinner("Melakukan prediksi..."):
                 input_tensor = tf.convert_to_tensor(processed_input, dtype=tf.float32)
@@ -76,15 +76,15 @@ if uploaded_file is not None:
                     output_key = list(result.keys())[0]
                     pred_prob = result[output_key].numpy()[0][0]
                     predicted_label = "Lumpy Skin" if pred_prob > 0.5 else "Normal Skin"
-    
+
                     st.subheader("Hasil Prediksi")
                     st.success(f"**Prediksi Model:** `{predicted_label}`")
                     st.info(f"**Probabilitas Lumpy:** `{pred_prob:.4f}`")
-    
+
                     if true_label:
                         st.subheader("Label Asli (Ground Truth)")
                         st.code(true_label)
-    
+
                 except Exception as e:
                     st.error("Terjadi kesalahan saat melakukan inferensi:")
                     st.exception(e)
